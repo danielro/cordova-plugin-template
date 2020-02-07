@@ -1,6 +1,6 @@
 /**
  */
-package com.example;
+package com.example.SuperAppPlugin;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
@@ -16,13 +16,13 @@ import android.util.Log;
 
 import java.util.Date;
 
-public class MyCordovaPlugin extends CordovaPlugin {
-  private static final String TAG = "MyCordovaPlugin";
+public class SuperAppPlugin extends CordovaPlugin {
+  private static final String TAG = "SuperAppPlugin";
 
   public void initialize(CordovaInterface cordova, CordovaWebView webView) {
     super.initialize(cordova, webView);
 
-    Log.d(TAG, "Initializing MyCordovaPlugin");
+    Log.d(TAG, "Initializing SuperAppPlugin");
   }
 
   public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
@@ -36,6 +36,15 @@ public class MyCordovaPlugin extends CordovaPlugin {
       callbackContext.sendPluginResult(result);
     }
     return true;
+  }
+
+  private void executeGlobalJavascript(final String jsString){
+      cordova.getActivity().runOnUiThread(new Runnable() {
+          @Override
+          public void run() {
+              webView.loadUrl("javascript:" + jsString);
+          }
+      });
   }
 
 }
